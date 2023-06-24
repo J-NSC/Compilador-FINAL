@@ -1,3 +1,4 @@
+
 package lexer;
 
 public enum Tag {
@@ -15,6 +16,8 @@ public enum Tag {
 	LT("LT"), LE("LE"), GT("GT"),
 	//Symbols
 	SEMI("SEMI"), DOT("DOT"), LPAREN("LPAREN"), RPAREN("RPAREN"),
+	// cientific notation
+	CIEN("CIEN"),
 	//Literals and Identifiers
 	LIT_INT("LIT_INT"), LIT_REAL("LIT_REAL"), ID("ID"),
 	TRUE("TRUE"), FALSE("FALSE"),
