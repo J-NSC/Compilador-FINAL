@@ -1,5 +1,6 @@
 package parser;
 
+import java.text.NumberFormat;
 import java.util.Hashtable;
 
 import inter.Node;
@@ -210,6 +211,26 @@ public class Parser {
 		default:
 			error("expressão inválida");
 		}
+
+		if(look.tag() == Tag.LIT_REAL && look.lexeme().toLowerCase().contains("e")){
+			String lexe = look.lexeme();
+			
+			String [] parts = lexe.toLowerCase().split("e");
+			if(parts.length == 2){
+				try {
+					double mantissa = Double.parseDouble(parts[0]);
+					int exponent = Integer.parseInt(parts[1]);
+					double value = mantissa * Math.pow(10, exponent);
+
+					e = new Literal(new Token(Tag.LIT_REAL, String.valueOf(value)), Tag.REAL);
+					move();
+				} catch (NumberFormatException ex) {
+					error("notação cientifica invalida"+ lexe);
+				}
+
+			}
+		}
+
 		return e;
 	}
 }

@@ -110,7 +110,6 @@ public class Lexer {
 					CommentBLock();
 					return nextToken();
 				}
-
 			case '(':
 				nextChar();
 				return new Token(Tag.LPAREN, "(");
@@ -126,13 +125,32 @@ public class Lexer {
 						num += peek;
 						nextChar();
 					} while (Character.isDigit(peek));
-					if (peek != '.')
-						return new Token(Tag.LIT_INT, num);
-					do {
+					if (peek == '.') {
 						num += peek;
 						nextChar();
-					} while (Character.isDigit(peek));
-					return new Token(Tag.LIT_REAL, num);
+						while (Character.isDigit(peek)) {
+							num += peek;
+							nextChar();
+						}
+					}
+					if (peek == 'e' || peek == 'E') {
+						num += peek;
+						nextChar();
+						if (peek == '+' || peek == '-') {
+							num += peek;
+							nextChar();
+						}
+						while (Character.isDigit(peek)) {
+							num += peek;
+							nextChar();
+						}
+					}
+
+					if(num.contains(".") || num.contains("e")|| num.contains("E"))
+						return new Token(Tag.LIT_REAL, num);
+					
+					return new Token(Tag.LIT_INT, num);
+
 				} else if (isIdStart(peek)) {
 					String id = "";
 					do {
@@ -151,8 +169,8 @@ public class Lexer {
 
 	private void CommentBLock() {
 
-		boolean closingFound = false;
-		while (!closingFound) {
+		boolean endComment = false;
+		while (!endComment) {
 			while (peek != '*') {
 				if (peek == EOF_CHAR)
 					break;
@@ -161,7 +179,7 @@ public class Lexer {
 			if (peek == '*') {
 				nextChar();
 				if (peek == '/') {
-					closingFound = true;
+					endComment = true;
 					nextChar();
 				}
 			}
