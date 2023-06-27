@@ -12,7 +12,7 @@ STMTS ::= STMT; STMTS | ε
 STMT ::= BLOCK | DECL | ASSIGN | WRITE | IF  
 DECL ::= TYPE ID  
 ASSIGN ::= ID = EXPR  
-ARITHASSIGN ::= ID = ID + EXPR | ID = ID - EXPR | ID = ID _ EXPR
+ARITHASSIGN ::= ID = ID + EXPR | ID = ID - EXPR | ID = ID * EXPR
 WRITE ::= escreva(ID)  
 IF ::= se (EXPR) STMT  
 EXPR ::= EXPR "|" REL | REL  
